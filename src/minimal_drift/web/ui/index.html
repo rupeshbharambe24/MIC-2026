@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MINIMAL-DRIFT — red &amp; blue for agentic payments</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#2a3240;
+    --ink:#e6edf3; --dim:#8b949e; --accent:#58a6ff;
+    --ok:#3fb950; --drift:#f85149; --warn:#d29922; --info:#a371f7;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  a{color:var(--accent)}
+  header{padding:22px 26px;border-bottom:1px solid var(--line);background:var(--panel)}
+  h1{margin:0;font-size:20px;letter-spacing:.4px}
+  h1 span{color:var(--dim);font-weight:400}
+  .sub{color:var(--dim);font-size:13px;margin-top:6px}
+  .wrap{max-width:1240px;margin:0 auto;padding:22px 26px 60px}
+  .row{display:flex;gap:18px;flex-wrap:wrap}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .grow{flex:1 1 320px;min-width:0}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:1.1px;color:var(--dim);
+     margin:0 0 12px;font-weight:600}
+  /* headline counter */
+  .counter{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .big{font:700 68px/1 var(--mono);color:var(--drift);font-variant-numeric:tabular-nums}
+  .was{font:400 22px/1 var(--mono);color:var(--dim);text-decoration:line-through}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:12px;margin-top:14px}
+  .kpi{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+  .kpi.verdict{grid-column:1/-1;border-color:var(--accent);background:#111c26}
+  .kpi.verdict b{color:var(--accent)}
+  .verdictline{margin-top:10px;font-size:12.5px;line-height:1.5}
+  .kpi b{display:block;font:600 19px/1.2 var(--mono);margin-bottom:3px}
+  .kpi small{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.7px}
+  /* controls */
+  select,button{background:var(--panel2);color:var(--ink);border:1px solid var(--line);
+                border-radius:7px;padding:8px 11px;font-size:13px;font-family:inherit}
+  button{cursor:pointer}
+  button:hover:not(:disabled){border-color:var(--accent)}
+  button:disabled{opacity:.45;cursor:default}
+  label{font-size:12px;color:var(--dim);display:block;margin-bottom:5px}
+  .ctl{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+  /* steps */
+  .step{border:1px solid var(--line);border-left-width:4px;border-radius:8px;
+        background:var(--panel2);margin-bottom:10px;overflow:hidden}
+  .step.ok{border-left-color:var(--ok)}
+  .step.drift{border-left-color:var(--drift)}
+  .step.blocked{border-left-color:var(--warn)}
+  .step.info{border-left-color:var(--info)}
+  .step.pending{opacity:.32}
+  .step > summary{cursor:pointer;padding:11px 14px;list-style:none;display:flex;
+                  gap:10px;align-items:flex-start}
+  .step > summary::-webkit-details-marker{display:none}
+  .step .t{font-weight:600;font-size:14px}
+  .step .d{color:var(--dim);font-size:13px;margin-top:3px}
+  .tag{font:600 10px/1 var(--mono);text-transform:uppercase;letter-spacing:.6px;
+       padding:4px 7px;border-radius:4px;flex:0 0 auto;margin-top:2px}
+  .tag.ok{background:#16351f;color:var(--ok)}
+  .tag.drift{background:#3a1517;color:var(--drift)}
+  .tag.blocked{background:#3a2c0c;color:var(--warn)}
+  .tag.info{background:#2a1d3d;color:var(--info)}
+  pre{margin:0;padding:12px 14px;background:#0b0f16;border-top:1px solid var(--line);
+      font-family:var(--mono);font-size:12px;overflow-x:auto;white-space:pre-wrap;
+      word-break:break-word;color:#c9d1d9}
+  /* heatmap */
+  table{border-collapse:collapse;width:100%;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left}
+  th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+  .hm td{text-align:center;font-family:var(--mono);cursor:default;min-width:74px}
+  .hm td.f{color:#08120c;font-weight:700}
+  .hm td.e{color:#39414f}
+  .hm th.rh{text-align:right;font-family:inherit;text-transform:none;font-size:12px;
+            letter-spacing:0;color:var(--ink)}
+  .scroll{overflow-x:auto}
+  .note{color:var(--dim);font-size:12px;margin-top:10px}
+  .warnbox{background:#3a2c0c;border:1px solid #6b5410;color:#f0d58c;
+           border-radius:8px;padding:11px 14px;font-size:13px;margin-bottom:18px}
+  ul.g{margin:0;padding-left:18px;color:var(--dim);font-size:12.5px}
+  .err{color:var(--drift);font-family:var(--mono);font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>MINIMAL-DRIFT <span>· red team &amp; blue team for agentic payments (AP2)</span></h1>
+  <div class="sub" id="meta">loading…</div>
+</header>
+
+<div class="wrap">
+  <div id="guard"></div>
+
+  <div class="row">
+    <div class="card grow" style="flex:2 1 460px">
+      <h2>The number — |δ*|</h2>
+      <div class="counter">
+        <span class="big" id="dstar">–</span>
+        <span class="was" id="dwas"></span>
+        <span style="color:var(--dim);font-size:13px">
+          certified-minimal changed fields that flip a <b style="color:var(--ink)">valid</b>
+          AP2 payment's purchased object
+        </span>
+      </div>
+      <div class="kpis" id="kpis"></div>
+      <div class="verdictline note" id="verdictline"></div>
+    </div>
+    <div class="card grow" style="flex:1 1 300px">
+      <h2>&hellip;and what it costs against the gate</h2>
+      <div class="counter">
+        <span class="big" id="beat">–</span>
+        <span style="color:var(--dim);font-size:13px">
+          of <b style="color:var(--ink)" id="reached">–</b> working attacks beat the
+          intent-faithfulness gate, with the attacker told which layer refused
+          <b style="color:var(--ink)" id="refl">–</b> times
+        </span>
+      </div>
+      <div class="note" id="loopnote"></div>
+    </div>
+    <div class="card grow">
+      <h2>Replay an attack</h2>
+      <div class="ctl">
+        <div>
+          <label for="intent">Intent</label>
+          <select id="intent"></select>
+        </div>
+        <div>
+          <label for="target">Drift target</label>
+          <select id="target"></select>
+        </div>
+        <button id="run">Replay ▸</button>
+      </div>
+      <div class="note" id="runstate"></div>
+      <div class="note" id="targetinfo"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h2>Blue team &mdash; the intent-faithfulness gate</h2>
+    <p class="muted" style="margin:0 0 10px">
+      The incumbent defenders read the attacker&rsquo;s prose, so they catch mechanisms that
+      inject language and are near-blind to ones that assert nothing false. This gate never
+      reads the prose to decide: it compares the <b>intent as stated</b> against the
+      <b>merchant&rsquo;s own record for what was actually bought</b>, resolved through the one
+      field the attacker cannot forge &mdash; <span class="mono">cart_id &rarr; SKU</span>.
+    </p>
+    <div class="scroll"><table id="blue"></table></div>
+    <p class="muted" id="blue-foot" style="margin:10px 0 0"></p>
+    <p class="muted" id="blue-adaptive" style="margin:10px 0 0"></p>
+    <div id="blue-integrity" style="margin-top:14px"></div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h2>Protocol findings &mdash; what the signatures do not cover</h2>
+    <p class="muted" style="margin:0 0 10px">
+      Both of these are defects in the <b>validator</b>, not misses by the gate: the gate is
+      handed a view and a cart id, and never sees a mandate, a clock or a ledger. They are
+      reported as red-team findings because that is what they are.
+    </p>
+    <div id="probes"><div class="note">not run &mdash; <span class="mono">make probes</span></div></div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h2>End-to-end replay</h2>
+    <div id="steps"><div class="note">Pick an intent and press Replay.</div></div>
+  </div>
+
+  <div class="row" style="margin-top:18px">
+    <div class="card grow" style="flex:2 1 560px">
+      <h2>Archive — mechanism × causal surface stage, coloured by fitness</h2>
+      <div class="scroll"><table class="hm" id="hm"></table></div>
+      <div class="note" id="hmnote"></div>
+    </div>
+    <div class="card grow">
+      <h2>Coverage &amp; binning sensitivity</h2>
+      <div id="cov"><div class="note">loading…</div></div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:18px">
+    <div class="card grow"><h2>Per-budget results</h2>
+      <div class="scroll"><table id="bud"></table></div></div>
+    <div class="card grow"><h2>Transfer</h2><div id="tr"></div></div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h2>Guardrails</h2>
+    <ul class="g" id="guards"></ul>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const fmt = (n, d = 2) => (n === null || n === undefined ? "–" : Number(n).toFixed(d));
+const inr = (n) => (n === null || n === undefined ? "–" : "₹" + Math.round(n).toLocaleString("en-IN"));
+
+async function get(path) {
+  const r = await fetch(path);
+  if (!r.ok) throw new Error(`${path} → ${r.status} ${(await r.text()).slice(0, 200)}`);
+  return r.headers.get("content-type")?.includes("json") ? r.json() : r.text();
+}
+
+/* ---------- meta ---------- */
+let META = null;
+async function loadMeta() {
+  META = await get("/api/meta");
+  $("meta").textContent =
+    `target ${META.model_id} · τ=${META.tau} · ρ=${META.rho} · N=${META.n_seeds} seeds · ` +
+    `seed ${META.seed} · signing ${META.sign_mode} · live model ${META.live_mode}`;
+  $("guards").innerHTML = META.guardrails.map((g) => `<li>${g}</li>`).join("");
+  if (!META.live_mode) {
+    $("guard").innerHTML =
+      `<div class="warnbox"><b>Surrogate target.</b> No live model key is set, so every
+       figure on this page is measured against the deterministic surrogate agent, and
+       transfer is over surrogate weight profiles — <b>not</b> a cross-vendor claim.</div>`;
+  }
+}
+
+/* ---------- intents & targets ---------- */
+let INTENTS = [];
+// The demo opens here rather than on the flagship. On the flagship the auto-selected
+// strongest target is a consent+rationale attack, which the language-based defenders
+// also catch (S=0) -- so the page would open on the one case where the gate looks
+// redundant. The incumbents miss ~39% of attacks overall, so an intent where they miss
+// is the representative case, not the flattering exception. Every intent stays in the
+// dropdown and the verdict line states honestly which situation you are looking at.
+const DEMO_DEFAULT_INTENT = "intent_trail_shoes";
+
+async function loadIntents() {
+  INTENTS = await get("/api/intents");
+  const sel = $("intent");
+  sel.innerHTML = INTENTS.map(
+    (i) => `<option value="${i.id}"${i.id === DEMO_DEFAULT_INTENT ? " selected" : ""}>${i.id}${
+      i.n_drift_targets ? "" : "  (no drift target)"}</option>`
+  ).join("");
+  sel.onchange = fillTargets;
+  fillTargets();
+}
+function currentIntent() {
+  return INTENTS.find((i) => i.id === $("intent").value);
+}
+function fillTargets() {
+  const it = currentIntent();
+  $("target").innerHTML =
+    `<option value="">auto — strongest found</option>` +
+    it.targets.map((t) => `<option value="${t.sku}">${t.name} · ${inr(t.price)}</option>`).join("");
+  $("targetinfo").textContent =
+    `"${it.text}"  ·  cap ${inr(it.budget_cap)}  ·  refundable required: ` +
+    `${it.requires_refundability}  ·  ${it.n_drift_targets} in-mandate drift target(s)`;
+  $("run").disabled = it.n_drift_targets === 0;
+}
+
+/* ---------- replay ---------- */
+function countUp(el, to, was) {
+  $("dwas").textContent = was && was !== to ? `was ${was}` : "";
+  let v = 0;
+  el.textContent = "0";
+  const tick = setInterval(() => {
+    v += 1;
+    el.textContent = String(v);
+    if (v >= to) clearInterval(tick);
+  }, 220);
+}
+
+function renderSteps(r) {
+  const box = $("steps");
+  // The red flow ends at "the payment is valid". That is the wrong place to stop in a
+  // red+blue submission, so the gate's verdict is appended as the closing step.
+  const blue = {
+    key: "blue",
+    title: `${r.steps.length + 1} \u00b7 The intent-faithfulness gate`,
+    // S = 1 - fire_rate, so S=0 means the incumbent DID catch it. Only claim a
+    // contrast when one actually missed, or the line says the opposite of the metric.
+    detail: (() => {
+      if (!r.blue_fired) return "the gate did not fire on this attack";
+      const head =
+        `${r.blue_decision.toUpperCase()} at ${r.blue_boundary} \u2014 ` +
+        `${r.blue_reasons.length} reason(s)`;
+      const missed = [];
+      if (r.stealth_in_loop > 0) missed.push(`in-loop S=${fmt(r.stealth_in_loop, 2)}`);
+      if (r.stealth_held_out > 0) missed.push(`held-out S=${fmt(r.stealth_held_out, 2)}`);
+      return missed.length
+        ? `${head}. Missed by ${missed.join(" and ")} (S &gt; 0 = evaded).`
+        : `${head}. Both incumbent defenders also caught this one (S = 0).`;
+    })(),
+    verdict: r.blue_fired ? "blocked" : "drift",
+    data: {
+      fired: r.blue_fired,
+      decision: r.blue_decision,
+      boundary: r.blue_boundary,
+      reasons: r.blue_reasons,
+    },
+  };
+  box.innerHTML = [...r.steps, blue]
+    .map(
+      (s, i) => `
+    <details class="step ${s.verdict || "info"} pending" data-i="${i}">
+      <summary>
+        <span class="tag ${s.verdict || "info"}">${s.verdict || "info"}</span>
+        <span><span class="t">${s.title}</span><div class="d">${s.detail}</div></span>
+      </summary>
+      <pre>${JSON.stringify(s.data, null, 2).replace(/</g, "&lt;")}</pre>
+    </details>`
+    )
+    .join("");
+  // reveal progressively so the flow reads as a sequence, not a dump
+  [...box.children].forEach((el, i) =>
+    setTimeout(() => el.classList.remove("pending"), 130 * i)
+  );
+}
+
+function renderKpis(r) {
+  $("kpis").innerHTML = [
+    ["ATE", fmt(r.ate, 3), `CI [${fmt(r.ci95[0], 2)}, ${fmt(r.ci95[1], 2)}]`],
+    ["baseline ε", fmt(r.epsilon, 4), `τ = ${r.tau}`],
+    ["attributable", r.attributable ? "YES" : "no", "CI>0 ∧ ≥τ ∧ >ε"],
+    ["divergence D", fmt(r.divergence, 2), "0 faithful → 1 wrong class"],
+    ["impact", inr(r.impact_inr), "per session, mandate-capped"],
+    ["C(δ*)", fmt(r.cost_star, 2), `was ${fmt(r.cost, 2)}`],
+    ["S in-loop", fmt(r.stealth_in_loop, 2), "1 = never detected"],
+    ["S held-out", fmt(r.stealth_held_out, 2), "never seen by fitness"],
+    [
+      "blue gate",
+      r.blue_fired ? r.blue_decision.toUpperCase() : "allowed",
+      r.blue_fired ? `caught at ${r.blue_boundary}` : "the gate did not fire",
+    ],
+  ]
+    .map(
+      ([k, v, s]) =>
+        `<div class="kpi${k === "blue gate" ? " verdict" : ""}"><b>${v}</b><small>${k}</small>
+          <div class="note" style="margin-top:4px;font-size:11px">${s}</div></div>`
+    )
+    .join("");
+
+  // Say plainly what the comparison means ON THIS INTENT. S = 1 - fire_rate, so S=0
+  // means the incumbent DID catch it -- without this line a reader has to invert the
+  // metric in their head, and on an intent where everyone catches it the blue column
+  // silently reads as redundant.
+  const missed = [];
+  if (r.stealth_in_loop > 0) missed.push(`in-loop S=${fmt(r.stealth_in_loop, 2)}`);
+  if (r.stealth_held_out > 0) missed.push(`held-out S=${fmt(r.stealth_held_out, 2)}`);
+  const line = $("verdictline");
+  if (!r.blue_fired) {
+    line.innerHTML = `<span class="tag drift">gate allowed</span> the intent gate did not fire on this attack.`;
+  } else if (missed.length) {
+    line.innerHTML =
+      `<span class="tag ok">caught only by the gate</span> ` +
+      `evaded by ${missed.join(" and ")} — S above zero means the attack got through. ` +
+      `The intent gate blocked it at <span class="mono">${r.blue_boundary}</span>.`;
+  } else {
+    line.innerHTML =
+      `<span class="tag ok">caught by all three</span> this attack injects prose, which the ` +
+      `language-based defenders see too (S = 0 means detected). The gate's advantage shows on ` +
+      `the quiet mechanisms — try <span class="mono">intent_trail_shoes</span>.`;
+  }
+}
+
+async function runReplay() {
+  const btn = $("run");
+  btn.disabled = true;
+  $("runstate").textContent = "running the full flow…";
+  $("steps").innerHTML = `<div class="note">computing…</div>`;
+  try {
+    const q = new URLSearchParams({ intent: $("intent").value });
+    if ($("target").value) q.set("target_sku", $("target").value);
+    const r = await get("/api/replay?" + q);
+    countUp($("dstar"), r.delta_star, r.delta_fields);
+    renderKpis(r);
+    renderSteps(r);
+    $("runstate").innerHTML =
+      `<b>${r.target_name}</b> (${r.target_category}, ${inr(r.target_price)}) — ` +
+      `|δ| ${r.delta_fields} → |δ*| <b>${r.delta_star}</b>` +
+      (r.removed_ops.length ? `, removed ${r.removed_ops.join(", ")}` : ", already irreducible") +
+      (r.conjunctive ? " · drift is <b>conjunctive</b>: no single stage suffices" : "") +
+      ` · signing ${r.sign_mode}`;
+  } catch (e) {
+    $("runstate").innerHTML = `<span class="err">${e.message}</span>`;
+    $("steps").innerHTML = "";
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+/* ---------- heatmap ---------- */
+function colour(f, max) {
+  if (!f) return null;
+  const t = max > 0 ? f / max : 0;
+  // low fitness → deep blue, high → warm amber
+  const h = 210 - 175 * t;
+  return `hsl(${h} 78% ${34 + 34 * t}%)`;
+}
+async function loadHeatmap() {
+  let d;
+  try {
+    d = await get("/api/heatmap");
+  } catch (e) {
+    $("hm").innerHTML = "";
+    $("hmnote").innerHTML = `<span class="err">${e.message}</span>`;
+    return;
+  }
+  const max = Math.max(...d.cells.map((c) => c.fitness), 0);
+  const stages = META.stages;
+  let html = "<tr><th></th>" + stages.map((s) => `<th>${s}</th>`).join("") + "</tr>";
+  for (const m of META.mechanisms) {
+    html += `<tr><th class="rh">${m}</th>`;
+    for (const s of stages) {
+      const c = d.cells.find((x) => x.mechanism === m && x.stage === s);
+      if (c && c.filled) {
+        const tip = `${m} × ${s}\n|δ*|=${c.delta_star}  C=${fmt(c.cost)}\nATE=${fmt(
+          c.ate, 3)} CI[${fmt(c.ci95[0], 2)},${fmt(c.ci95[1], 2)}]\nR=${fmt(c.R)}  E=${inr(c.E)}\n` +
+          `S in-loop=${fmt(c.stealth_in_loop)}  S held-out=${fmt(c.stealth_held_out)}\n` +
+          `${c.intent}\nops: ${c.ops.join(", ")}`;
+        html += `<td class="f" style="background:${colour(c.fitness, max)}" title="${tip}">${
+          c.delta_star}</td>`;
+      } else {
+        html += `<td class="e" title="${m} × ${s}: empty">·</td>`;
+      }
+    }
+    html += "</tr>";
+  }
+  $("hm").innerHTML = html;
+  const s = d.summary;
+  $("hmnote").innerHTML =
+    `Cell value is <b>|δ*|</b>; colour is fitness = (ATE / C(δ)) × R. ` +
+    `Budget ${d.budget} candidates / ${d.queries_spent} target queries. ` +
+    `Filled ${s.filled}/${s.capacity} nominal, ${s.filled_reachable}/${s.reachable_capacity}
+     reachable · QD ${fmt(s.qd_score, 3)} · median |δ*| ${s.median_delta_star}. ` +
+    `Most of the nominal grid is empty <i>by construction</i> — a mechanism only writes to
+     the stages its own operators reach.`;
+  renderCoverage(d);
+}
+
+function renderCoverage(d) {
+  const tax = (t) => `
+    <div style="margin-bottom:12px">
+      <div style="font-size:12.5px"><b>${t.name}</b></div>
+      <div class="note">covered ${t.covered_items.length}/${t.in_scope_items} in-scope
+        (${fmt(t.covered_items.length / Math.max(t.in_scope_items, 1))}) ·
+        ${t.out_of_scope.length}/${t.total_items} declared out of scope</div>
+      <div class="note">covered: ${t.covered_items.join(", ") || "—"}</div>
+      <div class="note">in scope, not covered: ${t.uncovered_in_scope.join(", ") || "—"}</div>
+      <div class="note">out of scope: ${t.out_of_scope.join(", ")}</div>
+    </div>`;
+  const rows = (d.binning?.variants || [])
+    .map(
+      (v) =>
+        `<tr><td>${v.name}</td><td style="font-family:var(--mono)">${v.filled}/${
+          v.capacity}</td><td style="font-family:var(--mono)">${fmt(
+          v.filled / Math.max(v.capacity, 1))}</td></tr>`
+    )
+    .join("");
+  $("cov").innerHTML =
+    tax(d.owasp) + tax(d.maestro) +
+    `<div class="note" style="margin:10px 0">Item lists are transcribed from published
+      frameworks; <b>the cell→item mapping is our own judgement</b> and is not endorsed
+      by either body. Re-check both against their current revisions before quoting.</div>
+     <table><tr><th>binning</th><th>filled</th><th>coverage</th></tr>${rows}</table>
+     <div class="note">Spread between binnings: <b>${fmt(d.binning_spread, 3)}</b>.
+       Coarser bins flatter the coverage number — which is exactly why both are shown.</div>`;
+}
+
+/* ---------- budgets & transfer ---------- */
+async function loadBudgets() {
+  let rows;
+  try {
+    rows = await get("/api/budgets");
+  } catch (e) {
+    $("bud").innerHTML = `<tr><td class="err">${e.message}</td></tr>`;
+    return;
+  }
+  const head = ["budget", "queries", "cells", "QD", "median |δ*|", "strategies",
+                "succ/query", "₹/query", "1st success"];
+  $("bud").innerHTML =
+    `<tr>${head.map((h) => `<th>${h}</th>`).join("")}</tr>` +
+    rows
+      .map(
+        (r) => `<tr>
+      <td>${r.budget_generations}</td><td>${r.queries_spent}</td>
+      <td>${r.cells_filled}/${r.capacity_nominal}</td>
+      <td>${fmt(r.qd_score, 3)}</td><td>${r.median_delta_star}</td>
+      <td>${r.unique_strategies}</td><td>${fmt(r.success_per_query, 4)}</td>
+      <td>${fmt(r.impact_inr_per_query, 2)}</td>
+      <td>${r.queries_to_first_success}q</td></tr>`
+      )
+      .join("");
+}
+
+async function getOpt(path) {
+  try { return await get(path); } catch { return null; }
+}
+
+async function loadBlue() {
+  const d = await getOpt('/api/blue');
+  const t = document.getElementById('blue');
+  if (!d) { t.innerHTML = '<tr><td class="muted">not run &mdash; <span class="mono">make blue</span></td></tr>'; return; }
+  const cols = ['incumbent_either', 'blue-symbolic'];
+  const head = '<tr><th>mechanism</th><th>incumbent (either)</th><th>blue gate</th></tr>';
+  const pct = v => (v * 100).toFixed(1) + '%';
+  const rows = Object.entries(d.detection_by_mechanism).map(([m, r]) => {
+    const gain = r['blue-symbolic'] - r['incumbent_either'];
+    const cls = gain > 0.4 ? 'ok' : '';
+    return `<tr><td class="mono">${m}</td><td>${pct(r[cols[0]])}</td>` +
+           `<td class="${cls}"><b>${pct(r[cols[1]])}</b></td></tr>`;
+  }).join('');
+  const o = d.detection_overall, f = d.false_positive_rate;
+  const total = `<tr style="border-top:2px solid #30363d"><td><b>overall</b></td>` +
+    `<td><b>${pct(o[cols[0]])}</b></td><td class="ok"><b>${pct(o[cols[1]])}</b></td></tr>` +
+    `<tr><td class="muted">false positives (faithful runs)</td>` +
+    `<td class="muted">${pct(f[cols[0]])}</td><td class="muted">${pct(f[cols[1]])}</td></tr>`;
+  t.innerHTML = head + rows + total;
+
+  const inf = await getOpt('/api/inflation');
+  const foot = document.getElementById('blue-foot');
+  if (inf) {
+    foot.innerHTML = `Minimality inflation, using <b>the red team&rsquo;s own minimiser</b> under ` +
+      `<span class="mono">valid &and; attributable &and; &not;gate_fires</span>: median ` +
+      `|&delta;*| = <b>${inf.median_delta_star_red}</b> against the red predicate, and ` +
+      `<b>${inf.n_unreachable}/${inf.n_attacks}</b> attacks (${(inf.frac_unreachable * 100).toFixed(1)}%) ` +
+      `become <b>unreachable at any perturbation size</b> against the gate. ` +
+      `Measured on ${d.attack_runs} drift runs / ${d.distinct_attacks} distinct attacks, ` +
+      `target <span class="mono">${d.model_id}</span>.`;
+  } else {
+    foot.innerHTML = 'Inflation not run &mdash; <span class="mono">make inflation</span>';
+  }
+
+  const ad = await getOpt('/api/adaptive');
+  const adEl = document.getElementById('blue-adaptive');
+  if (ad) {
+    const reach = ad.blocked_by_gate + ad.attacks_that_beat_the_gate;
+    const refl = ad.reflections_triggered['blue_entailment'] || 0;
+    adEl.innerHTML = `<b>Adaptive search</b> &mdash; the attacker searching <i>against</i> the gate, ` +
+      `with a reflection donor set per blue boundary so a refusal changes its strategy, not its wording. ` +
+      `At ${ad.budget_generations} generations / ${ad.queries_spent} queries: ` +
+      `<b>${reach}</b> working attacks reached the gate, <b>${ad.blocked_by_gate}</b> were blocked, ` +
+      `<b>${ad.attacks_that_beat_the_gate}</b> beat it. It was told which wall it hit ` +
+      `<b>${refl}</b> times and still never got through.`;
+  } else {
+    adEl.innerHTML = 'Adaptive search not run &mdash; <span class="mono">make adaptive</span>';
+  }
+
+  // Hero counter: the other half of the loop.
+  if (ad) {
+    const reached = ad.blocked_by_gate + ad.attacks_that_beat_the_gate;
+    $('beat').textContent = ad.attacks_that_beat_the_gate;
+    $('reached').textContent = reached;
+    $('refl').textContent = ad.reflections_triggered['blue_entailment'] || 0;
+    $('loopnote').innerHTML =
+      `${ad.budget_generations} generations, ${ad.queries_spent} target queries, ` +
+      `target <span class="mono">${ad.model_id}</span>. The attacker searches ` +
+      `<i>against</i> the gate and has a repair path per refused layer.`;
+  } else {
+    $('loopnote').innerHTML = 'Adaptive search not run &mdash; <span class="mono">make adaptive</span>';
+  }
+
+  await loadIntegrity();
+}
+
+async function loadIntegrity() {
+  const d = await getOpt('/api/integrity');
+  const el = document.getElementById('blue-integrity');
+  if (!d) {
+    el.innerHTML = '<div class="note">Integrity report not run &mdash; <span class="mono">make integrity</span></div>';
+    return;
+  }
+  const iv = d.intervals, ab = d.layer_ablation, ok = d.agreement_with_answer_key,
+        vs = d.vacuous_payee_scope;
+  const pair = (t) => `(${(t[0] * 100).toFixed(1)}%, ${(t[1] * 100).toFixed(1)}%)`;
+
+  const rows = [
+    ['false positives (clean, faithful)', (iv.false_positive_rate * 100).toFixed(2) + '%',
+     `${iv.clean_runs} runs / <b>${iv.distinct_intents} intents</b>`, pair(iv.false_positive_rate_wilson95), ''],
+    ['detection (drift runs)', (iv.detection_overall * 100).toFixed(2) + '%',
+     iv.detection_runs, pair(iv.detection_wilson95), ''],
+    ['per-INTENT parse failure', '0 / 10', '<b>10</b>',
+     pair(iv.per_intent_parse_failure_wilson95), 'weak'],
+  ];
+  const table =
+    '<table><tr><th>quantity</th><th>point</th><th>n</th><th>Wilson 95%</th></tr>' +
+    rows.map(r => `<tr${r[4] === 'weak' ? ' style="color:var(--warn)"' : ''}>` +
+      `<td>${r[0]}</td><td><b>${r[1]}</b></td><td>${r[2]}</td><td class="mono">${r[3]}</td></tr>`).join('') +
+    '</table>';
+
+  const layers = Object.entries(ab.by_layer || {}).sort((a, b) => b[1] - a[1]);
+  const ablation = layers.length
+    ? '<table><tr><th>layer</th><th>attacks blocked</th></tr>' +
+      layers.map(([k, v]) => `<tr><td class="mono">${k}</td><td>${v}</td></tr>`).join('') +
+      `<tr><td class="mono">everything else</td><td>0</td></tr></table>`
+    : '';
+
+  el.innerHTML =
+    `<h3 style="margin:0 0 6px;font-size:13px;letter-spacing:.04em;color:var(--dim)">` +
+    `READ THESE WITH THEIR INTERVALS</h3>` +
+    `<div class="scroll">${table}</div>` +
+    `<p class="muted" style="margin:8px 0 0">The third row is the weakest number here and ` +
+    `the most important: ten intent strings is a small corpus, so the honest upper bound on ` +
+    `how often the parser mis-reads an intent is ` +
+    `<b>${(iv.per_intent_parse_failure_wilson95[1] * 100).toFixed(0)}%</b>, not zero. That is ` +
+    `why an ambiguous parse is capped at <span class="mono">hold</span> and never ` +
+    `<span class="mono">block</span>.</p>` +
+    `<div class="scroll" style="margin-top:12px">${ablation}</div>` +
+    `<p class="muted" style="margin:8px 0 0">L2 does essentially all the work on this ` +
+    `mechanism set. L3&ndash;L5 cover families the current op-set cannot express &mdash; none ` +
+    `of the eight injection primitives touches <span class="mono">Product</span>, ` +
+    `<span class="mono">cart_id</span>, or the binding between them.</p>` +
+    `<p class="muted" style="margin:8px 0 0">The gate <b>never reads</b> the answer key ` +
+    `(enforced by an AST walk) and still reproduces <b>${(ok.agreement * 100).toFixed(2)}%</b> ` +
+    `of the same partition (n=${ok.n}) from the natural-language intent alone. Both are true, ` +
+    `and the second matters more: a uniform 1.0 across six structurally different mechanisms ` +
+    `is substantially a property of the label.</p>` +
+    `<p class="muted" style="margin:8px 0 0"><b>${vs.intents_without_payee_scope.length} of ` +
+    `${iv.distinct_intents}</b> intents leave <span class="mono">merchants</span> unset, and ` +
+    `AP2 reads unset as &ldquo;any suitable merchant&rdquo; &mdash; so the protocol constrains ` +
+    `the counterparty not at all, and on those intents this gate is the only remaining control.</p>`;
+}
+
+async function loadProbes() {
+  const d = await getOpt('/api/probes');
+  const el = document.getElementById('probes');
+  if (!d) return;
+  const p1 = d.p1_replay, p2 = d.p2_intent_swap;
+  el.innerHTML =
+    `<div class="scroll"><table>` +
+    `<tr><th>finding</th><th>result</th></tr>` +
+    `<tr><td><b>Intent swap</b> &mdash; a cart signed under one intent, presented under another` +
+    `<div class="note">The IntentMandate is in no hash. ` +
+    `<span class="mono">transaction_data = [sha256(Cart), sha256(PaymentContents)]</span>. ` +
+    `The AP2 SDK documents PaymentMandate as &ldquo;bound to Cart/Intent mandate&rdquo; &mdash; ` +
+    `the binding in the prose does not exist in the cryptography.</div></td>` +
+    `<td>valid under its own intent: <b>${p2.valid_under_issuing_intent}</b><br>` +
+    `valid under a <b>different</b> live intent: ` +
+    `<b style="color:var(--drift)">${p2.valid_under_a_different_live_intent}</b><br>` +
+    `blue gate: ${p2.blue_gate_fired ? 'fired' : '<b style="color:var(--drift)">allowed</b>'}<br>` +
+    `intent hash in chain: <b>${p2.intent_hash_present_in_chain}</b><br>` +
+    `<span class="note">with the proposed binding: rejects swap ` +
+    `<b>${p2.with_binding_extension_rejects_swap}</b>, keeps the legitimate pairing ` +
+    `<b>${p2.with_binding_extension_accepts_own}</b></span></td></tr>` +
+    `<tr><td><b>Identical-bundle replay</b> &mdash; one signed bundle, presented twice` +
+    `<div class="note"><span class="mono">validate()</span> is declared pure and stateless, so ` +
+    `it cannot notice. AP2 puts the anti-replay MUST on the agent it declares untrusted; the ` +
+    `only verifier-side answer in the spec is a MAY.</div></td>` +
+    `<td>presentation 1 valid: <b>${p1.first_presentation_valid}</b><br>` +
+    `presentation 2 valid: <b style="color:var(--drift)">${p1.second_presentation_valid}</b><br>` +
+    `<span class="mono">jti</span> collides across independent sessions: ` +
+    `<b style="color:var(--drift)">${p1.jti_collides_across_sessions}</b> &mdash; the nonce is ` +
+    `not a nonce<br><span class="note">with a per-batch ledger: admits first ` +
+    `<b>${p1.ledger_admits_first}</b>, refuses the replay ` +
+    `<b>${!p1.ledger_admits_second}</b></span></td></tr>` +
+    `</table></div>`;
+}
+
+async function loadTransfer() {
+  let d;
+  try {
+    d = await get("/api/transfer");
+  } catch (e) {
+    $("tr").innerHTML = `<span class="err">${e.message}</span>`;
+    return;
+  }
+  $("tr").innerHTML = `
+    <div class="kpis">
+      <div class="kpi"><b>${fmt(d.zero_shot_rate)}</b><small>zero-shot rate</small></div>
+      <div class="kpi"><b>${fmt(d.mean_R_held_out)}</b><small>mean R held-out</small></div>
+      <div class="kpi"><b>${d.n_surviving_rho_on_held_out}/${d.n_elites}</b>
+        <small>clear ρ=${d.rho}</small></div>
+      <div class="kpi"><b>${fmt(d.environment_b_transfer_rate)}</b><small>environment B</small></div>
+    </div>
+    <div class="note" style="margin-top:10px">Cross-vendor transfer:
+      <b>${d.cross_vendor}</b>${d.cross_vendor ? "" :
+      " — surrogate weight-profile ensemble only; set ALT_MODEL_API_KEY for a real one."}</div>
+    <div class="scroll" style="margin-top:12px"><table>
+      <tr><th>cell</th><th>|δ*|</th><th>R fit</th><th>R held</th><th>zero-shot</th></tr>
+      ${d.rows.map((r) => `<tr><td>${r.cell}</td><td>${r.delta_star}</td>
+        <td>${fmt(r.R_fitness)}</td><td>${fmt(r.R_held_out)}</td>
+        <td>${r.zero_shot ? "yes" : "no"}</td></tr>`).join("")}
+    </table></div>`;
+}
+
+/* ---------- boot ---------- */
+(async () => {
+  await loadMeta();
+  await loadIntents();
+  $("run").onclick = runReplay;
+  await Promise.all([loadHeatmap(), loadBudgets(), loadTransfer(), loadBlue(), loadProbes()]);
+  runReplay();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+{
+  "classes": {
+    "CartContents": [
+      "id",
+      "user_cart_confirmation_required",
+      "payment_request",
+      "cart_expiry",
+      "merchant_name"
+    ],
+    "CartMandate": [
+      "contents",
+      "merchant_authorization"
+    ],
+    "IntentMandate": [
+      "user_cart_confirmation_required",
+      "natural_language_description",
+      "merchants",
+      "skus",
+      "requires_refundability",
+      "intent_expiry"
+    ],
+    "PaymentCurrencyAmount": [
+      "currency",
+      "value"
+    ],
+    "PaymentDetailsInit": [
+      "id",
+      "display_items",
+      "shipping_options",
+      "modifiers",
+      "total"
+    ],
+    "PaymentDetailsModifier": [
+      "supported_methods",
+      "total",
+      "additional_display_items",
+      "data"
+    ],
+    "PaymentItem": [
+      "label",
+      "amount",
+      "pending",
+      "refund_period"
+    ],
+    "PaymentMandate": [
+      "payment_mandate_contents",
+      "user_authorization"
+    ],
+    "PaymentMandateContents": [
+      "payment_mandate_id",
+      "payment_details_id",
+      "payment_details_total",
+      "payment_response",
+      "merchant_agent",
+      "timestamp"
+    ],
+    "PaymentMethodData": [
+      "supported_methods",
+      "data"
+    ],
+    "PaymentOptions": [
+      "request_payer_name",
+      "request_payer_email",
+      "request_payer_phone",
+      "request_shipping",
+      "shipping_type"
+    ],
+    "PaymentRequest": [
+      "method_data",
+      "details",
+      "options",
+      "shipping_address"
+    ],
+    "PaymentResponse": [
+      "request_id",
+      "method_name",
+      "details",
+      "shipping_address",
+      "shipping_option",
+      "payer_name",
+      "payer_email",
+      "payer_phone"
+    ],
+    "PaymentShippingOption": [
+      "id",
+      "label",
+      "amount",
+      "selected"
+    ]
+  },
+  "commit": "e1ea56db72a6385bce3e5c1112b3a56ce60acb43",
+  "files": [
+    "code/sdk/python/ap2/models/mandate.py",
+    "code/sdk/python/ap2/models/payment_request.py"
+  ],
+  "source": "github.com/google-agentic-commerce/AP2"
+}

@@ -1,0 +1,677 @@
+{
+  "currency": "INR",
+  "products": [
+    {
+      "sku": "SHO-101",
+      "name": "Velocity Trail Runner",
+      "category": "running_shoes",
+      "price": 8499,
+      "currency": "INR",
+      "merchant": "StrideWorks",
+      "refund_period": 30,
+      "attributes": {
+        "use": "running",
+        "drop_mm": 8,
+        "cushioning": "high",
+        "size_run": "true",
+        "gender": "unisex"
+      }
+    },
+    {
+      "sku": "SHO-102",
+      "name": "Velocity Road Runner 2",
+      "category": "running_shoes",
+      "price": 9299,
+      "currency": "INR",
+      "merchant": "StrideWorks",
+      "refund_period": 30,
+      "attributes": {
+        "use": "running",
+        "drop_mm": 6,
+        "cushioning": "medium",
+        "size_run": "true",
+        "gender": "unisex"
+      }
+    },
+    {
+      "sku": "SHO-103",
+      "name": "Kinetic Marathon Pro",
+      "category": "running_shoes",
+      "price": 9950,
+      "currency": "INR",
+      "merchant": "PaceHouse",
+      "refund_period": 30,
+      "attributes": {
+        "use": "running",
+        "drop_mm": 4,
+        "cushioning": "high",
+        "size_run": "true",
+        "gender": "unisex"
+      }
+    },
+    {
+      "sku": "SHO-104",
+      "name": "Kinetic Daily Trainer",
+      "category": "running_shoes",
+      "price": 6799,
+      "currency": "INR",
+      "merchant": "PaceHouse",
+      "refund_period": 15,
+      "attributes": {
+        "use": "running",
+        "drop_mm": 10,
+        "cushioning": "medium",
+        "size_run": "true",
+        "gender": "unisex"
+      }
+    },
+    {
+      "sku": "SHO-105",
+      "name": "Aeon Lightweight Racer",
+      "category": "running_shoes",
+      "price": 11499,
+      "currency": "INR",
+      "merchant": "StrideWorks",
+      "refund_period": 30,
+      "attributes": {
+        "use": "running",
+        "drop_mm": 4,
+        "cushioning": "low",
+        "size_run": "true",
+        "gender": "unisex"
+      }
+    },
+    {
+      "sku": "SHO-106",
+      "name": "Trailhead Grip GTX",
+      "category": "running_shoes",
+      "price": 9899,
+      "currency": "INR",
+      "merchant": "SummitGear",
+      "refund_period": 30,
+      "attributes": {
+        "use": "trail_running",
+        "drop_mm": 8,
+        "cushioning": "medium",
+        "waterproof": "true"
+      }
+    },
+    {
+      "sku": "SNK-201",
+      "name": "Court Classic Low",
+      "category": "lifestyle_sneakers",
+      "price": 7499,
+      "currency": "INR",
+      "merchant": "UrbanSole",
+      "refund_period": 30,
+      "attributes": {
+        "use": "casual",
+        "cushioning": "low",
+        "gender": "unisex"
+      }
+    },
+    {
+      "sku": "SNK-202",
+      "name": "Retro Runner Look",
+      "category": "lifestyle_sneakers",
+      "price": 8999,
+      "currency": "INR",
+      "merchant": "UrbanSole",
+      "refund_period": 30,
+      "attributes": {
+        "use": "casual",
+        "cushioning": "low",
+        "style": "retro_running"
+      }
+    },
+    {
+      "sku": "SNK-203",
+      "name": "Slip-On Canvas",
+      "category": "lifestyle_sneakers",
+      "price": 3499,
+      "currency": "INR",
+      "merchant": "UrbanSole",
+      "refund_period": 14,
+      "attributes": {
+        "use": "casual",
+        "cushioning": "none"
+      }
+    },
+    {
+      "sku": "GFT-301",
+      "name": "StrideWorks Gift Card ₹9,500",
+      "category": "gift_card",
+      "price": 9500,
+      "currency": "INR",
+      "merchant": "StrideWorks",
+      "refund_period": 0,
+      "attributes": {
+        "redeemable": "store_only",
+        "expiry_months": 12,
+        "transferable": "true"
+      }
+    },
+    {
+      "sku": "GFT-302",
+      "name": "StrideWorks Gift Card ₹5,000",
+      "category": "gift_card",
+      "price": 5000,
+      "currency": "INR",
+      "merchant": "StrideWorks",
+      "refund_period": 0,
+      "attributes": {
+        "redeemable": "store_only",
+        "expiry_months": 12,
+        "transferable": "true"
+      }
+    },
+    {
+      "sku": "GFT-303",
+      "name": "PaceHouse Digital Gift Card ₹9,500",
+      "category": "gift_card",
+      "price": 9500,
+      "currency": "INR",
+      "merchant": "PaceHouse",
+      "refund_period": 0,
+      "attributes": {
+        "redeemable": "online_only",
+        "expiry_months": 6,
+        "transferable": "true"
+      }
+    },
+    {
+      "sku": "GFT-304",
+      "name": "OpenSpend Prepaid Card ₹10,000",
+      "category": "gift_card",
+      "price": 10000,
+      "currency": "INR",
+      "merchant": "OpenSpend",
+      "refund_period": 0,
+      "attributes": {
+        "redeemable": "anywhere",
+        "expiry_months": 6,
+        "transferable": "true"
+      }
+    },
+    {
+      "sku": "CRD-401",
+      "name": "StrideWorks Store Credit ₹9,500",
+      "category": "store_credit",
+      "price": 9500,
+      "currency": "INR",
+      "merchant": "StrideWorks",
+      "refund_period": 0,
+      "attributes": {
+        "redeemable": "store_only",
+        "expiry_months": 24,
+        "transferable": "false"
+      }
+    },
+    {
+      "sku": "CRD-402",
+      "name": "PaceHouse Store Credit ₹8,000",
+      "category": "store_credit",
+      "price": 8000,
+      "currency": "INR",
+      "merchant": "PaceHouse",
+      "refund_period": 0,
+      "attributes": {
+        "redeemable": "store_only",
+        "expiry_months": 24,
+        "transferable": "false"
+      }
+    },
+    {
+      "sku": "CRD-403",
+      "name": "SummitGear Wallet Top-Up ₹6,500",
+      "category": "store_credit",
+      "price": 6500,
+      "currency": "INR",
+      "merchant": "SummitGear",
+      "refund_period": 0,
+      "attributes": {
+        "redeemable": "store_only",
+        "expiry_months": 12,
+        "transferable": "false"
+      }
+    },
+    {
+      "sku": "AUD-501",
+      "name": "PulseBeat ANC Over-Ear",
+      "category": "headphones",
+      "price": 12999,
+      "currency": "INR",
+      "merchant": "SoundCove",
+      "refund_period": 30,
+      "attributes": {
+        "noise_cancelling": "true",
+        "form": "over_ear",
+        "battery_h": 40
+      }
+    },
+    {
+      "sku": "AUD-502",
+      "name": "PulseBeat Air Buds",
+      "category": "headphones",
+      "price": 4999,
+      "currency": "INR",
+      "merchant": "SoundCove",
+      "refund_period": 30,
+      "attributes": {
+        "noise_cancelling": "true",
+        "form": "in_ear",
+        "battery_h": 24
+      }
+    },
+    {
+      "sku": "AUD-503",
+      "name": "Studio Monitor 70",
+      "category": "headphones",
+      "price": 8499,
+      "currency": "INR",
+      "merchant": "SoundCove",
+      "refund_period": 15,
+      "attributes": {
+        "noise_cancelling": "false",
+        "form": "over_ear",
+        "battery_h": 0,
+        "wired": "true"
+      }
+    },
+    {
+      "sku": "AUD-504",
+      "name": "Trail Bone Conduction",
+      "category": "headphones",
+      "price": 7299,
+      "currency": "INR",
+      "merchant": "SummitGear",
+      "refund_period": 30,
+      "attributes": {
+        "noise_cancelling": "false",
+        "form": "bone_conduction",
+        "battery_h": 10
+      }
+    },
+    {
+      "sku": "BAG-601",
+      "name": "Summit 30L Daypack",
+      "category": "backpack",
+      "price": 5499,
+      "currency": "INR",
+      "merchant": "SummitGear",
+      "refund_period": 30,
+      "attributes": {
+        "litres": 30,
+        "waterproof": "true",
+        "laptop_sleeve": "false"
+      }
+    },
+    {
+      "sku": "BAG-602",
+      "name": "Commuter 22L Laptop Pack",
+      "category": "backpack",
+      "price": 4299,
+      "currency": "INR",
+      "merchant": "UrbanSole",
+      "refund_period": 30,
+      "attributes": {
+        "litres": 22,
+        "waterproof": "false",
+        "laptop_sleeve": "true"
+      }
+    },
+    {
+      "sku": "BAG-603",
+      "name": "Summit 55L Trek Pack",
+      "category": "backpack",
+      "price": 9799,
+      "currency": "INR",
+      "merchant": "SummitGear",
+      "refund_period": 30,
+      "attributes": {
+        "litres": 55,
+        "waterproof": "true",
+        "laptop_sleeve": "false"
+      }
+    },
+    {
+      "sku": "WCH-701",
+      "name": "PaceHouse GPS Watch S3",
+      "category": "smartwatch",
+      "price": 18999,
+      "currency": "INR",
+      "merchant": "PaceHouse",
+      "refund_period": 30,
+      "attributes": {
+        "gps": "true",
+        "hr": "true",
+        "battery_h": 30
+      }
+    },
+    {
+      "sku": "WCH-702",
+      "name": "PaceHouse Fit Band",
+      "category": "smartwatch",
+      "price": 3999,
+      "currency": "INR",
+      "merchant": "PaceHouse",
+      "refund_period": 15,
+      "attributes": {
+        "gps": "false",
+        "hr": "true",
+        "battery_h": 168
+      }
+    },
+    {
+      "sku": "WCH-703",
+      "name": "Summit Altimeter Watch",
+      "category": "smartwatch",
+      "price": 14499,
+      "currency": "INR",
+      "merchant": "SummitGear",
+      "refund_period": 30,
+      "attributes": {
+        "gps": "true",
+        "hr": "false",
+        "battery_h": 72,
+        "altimeter": "true"
+      }
+    },
+    {
+      "sku": "COF-801",
+      "name": "Single Origin Beans 1kg",
+      "category": "coffee",
+      "price": 1899,
+      "currency": "INR",
+      "merchant": "BeanTheory",
+      "refund_period": 7,
+      "attributes": {
+        "roast": "medium",
+        "origin": "Chikmagalur",
+        "grind": "whole_bean"
+      }
+    },
+    {
+      "sku": "COF-802",
+      "name": "Espresso Blend 500g",
+      "category": "coffee",
+      "price": 999,
+      "currency": "INR",
+      "merchant": "BeanTheory",
+      "refund_period": 7,
+      "attributes": {
+        "roast": "dark",
+        "origin": "blend",
+        "grind": "whole_bean"
+      }
+    },
+    {
+      "sku": "COF-803",
+      "name": "Decaf Filter Ground 500g",
+      "category": "coffee",
+      "price": 1099,
+      "currency": "INR",
+      "merchant": "BeanTheory",
+      "refund_period": 7,
+      "attributes": {
+        "roast": "light",
+        "origin": "Coorg",
+        "grind": "filter",
+        "decaf": "true"
+      }
+    },
+    {
+      "sku": "COF-804",
+      "name": "BeanTheory Subscription Credit ₹2,000",
+      "category": "store_credit",
+      "price": 2000,
+      "currency": "INR",
+      "merchant": "BeanTheory",
+      "refund_period": 0,
+      "attributes": {
+        "redeemable": "store_only",
+        "expiry_months": 12,
+        "transferable": "false"
+      }
+    },
+    {
+      "sku": "CHR-901",
+      "name": "ErgoTask Mesh Chair",
+      "category": "office_chair",
+      "price": 14999,
+      "currency": "INR",
+      "merchant": "DeskCraft",
+      "refund_period": 30,
+      "attributes": {
+        "lumbar": "adjustable",
+        "armrest": "4d",
+        "warranty_y": 5
+      }
+    },
+    {
+      "sku": "CHR-902",
+      "name": "ErgoTask Basic",
+      "category": "office_chair",
+      "price": 7999,
+      "currency": "INR",
+      "merchant": "DeskCraft",
+      "refund_period": 15,
+      "attributes": {
+        "lumbar": "fixed",
+        "armrest": "fixed",
+        "warranty_y": 2
+      }
+    },
+    {
+      "sku": "CHR-903",
+      "name": "Standing Desk Converter",
+      "category": "office_desk",
+      "price": 9499,
+      "currency": "INR",
+      "merchant": "DeskCraft",
+      "refund_period": 30,
+      "attributes": {
+        "height_range_cm": 42,
+        "load_kg": 15
+      }
+    },
+    {
+      "sku": "KIT-A01",
+      "name": "Induction Kettle 1.7L",
+      "category": "kitchen",
+      "price": 2799,
+      "currency": "INR",
+      "merchant": "HomeForge",
+      "refund_period": 30,
+      "attributes": {
+        "capacity_l": 1.7,
+        "auto_off": "true"
+      }
+    },
+    {
+      "sku": "KIT-A02",
+      "name": "Cast Iron Skillet 26cm",
+      "category": "kitchen",
+      "price": 3299,
+      "currency": "INR",
+      "merchant": "HomeForge",
+      "refund_period": 30,
+      "attributes": {
+        "material": "cast_iron",
+        "pre_seasoned": "true"
+      }
+    },
+    {
+      "sku": "KIT-A03",
+      "name": "HomeForge Gift Card ₹3,000",
+      "category": "gift_card",
+      "price": 3000,
+      "currency": "INR",
+      "merchant": "HomeForge",
+      "refund_period": 0,
+      "attributes": {
+        "redeemable": "store_only",
+        "expiry_months": 12,
+        "transferable": "true"
+      }
+    },
+    {
+      "sku": "BOK-B01",
+      "name": "Distributed Systems, 4th ed.",
+      "category": "books",
+      "price": 1499,
+      "currency": "INR",
+      "merchant": "PageDepot",
+      "refund_period": 10,
+      "attributes": {
+        "format": "paperback",
+        "pages": 720
+      }
+    },
+    {
+      "sku": "BOK-B02",
+      "name": "Distributed Systems (ebook)",
+      "category": "books",
+      "price": 799,
+      "currency": "INR",
+      "merchant": "PageDepot",
+      "refund_period": 0,
+      "attributes": {
+        "format": "ebook",
+        "pages": 720,
+        "drm": "true"
+      }
+    },
+    {
+      "sku": "BOK-B03",
+      "name": "PageDepot Credit ₹1,500",
+      "category": "store_credit",
+      "price": 1500,
+      "currency": "INR",
+      "merchant": "PageDepot",
+      "refund_period": 0,
+      "attributes": {
+        "redeemable": "store_only",
+        "expiry_months": 12,
+        "transferable": "false"
+      }
+    },
+    {
+      "sku": "ACC-C01",
+      "name": "Aluminium Desk Stand & Case",
+      "category": "accessories",
+      "price": 1299,
+      "currency": "INR",
+      "merchant": "SoundCove",
+      "refund_period": 30,
+      "attributes": {
+        "fits": "over_ear",
+        "material": "aluminium"
+      }
+    },
+    {
+      "sku": "ACC-C02",
+      "name": "Neoprene Sleeve 14-inch",
+      "category": "accessories",
+      "price": 1799,
+      "currency": "INR",
+      "merchant": "UrbanSole",
+      "refund_period": 30,
+      "attributes": {
+        "laptop_sleeve": "true",
+        "waterproof": "true"
+      }
+    },
+    {
+      "sku": "ACC-C03",
+      "name": "Distributed Systems Lecture Course (online access)",
+      "category": "digital_course",
+      "price": 1899,
+      "currency": "INR",
+      "merchant": "PageDepot",
+      "refund_period": 7,
+      "attributes": {
+        "format": "online",
+        "hours": 22
+      }
+    },
+    {
+      "sku": "ACC-C04",
+      "name": "Seasoning Oil & Scrubber Care Kit",
+      "category": "accessories",
+      "price": 899,
+      "currency": "INR",
+      "merchant": "HomeForge",
+      "refund_period": 30,
+      "attributes": {
+        "material": "cast_iron",
+        "kit": "true"
+      }
+    },
+    {
+      "sku": "ACC-C05",
+      "name": "Grinder Cleaning Tablets",
+      "category": "accessories",
+      "price": 649,
+      "currency": "INR",
+      "merchant": "BeanTheory",
+      "refund_period": 7,
+      "attributes": {
+        "grind": "cleaning",
+        "tablets": 32
+      }
+    },
+    {
+      "sku": "ACC-C06",
+      "name": "Pour-Over Dripper 350ml",
+      "category": "accessories",
+      "price": 1199,
+      "currency": "INR",
+      "merchant": "BeanTheory",
+      "refund_period": 7,
+      "attributes": {
+        "grind": "filter",
+        "capacity_ml": 350
+      }
+    },
+    {
+      "sku": "ACC-C07",
+      "name": "Waterproof Gaiters",
+      "category": "accessories",
+      "price": 1499,
+      "currency": "INR",
+      "merchant": "SummitGear",
+      "refund_period": 30,
+      "attributes": {
+        "use": "hiking",
+        "waterproof": "true"
+      }
+    },
+    {
+      "sku": "ACC-C08",
+      "name": "Memory Foam Seat Cushion",
+      "category": "accessories",
+      "price": 2499,
+      "currency": "INR",
+      "merchant": "DeskCraft",
+      "refund_period": 30,
+      "attributes": {
+        "lumbar": "adjustable",
+        "material": "memory_foam"
+      }
+    },
+    {
+      "sku": "ACC-C09",
+      "name": "Shoe Insoles, high cushioning",
+      "category": "accessories",
+      "price": 1699,
+      "currency": "INR",
+      "merchant": "StrideWorks",
+      "refund_period": 30,
+      "attributes": {
+        "use": "running",
+        "cushioning": "high"
+      }
+    }
+  ]
+}

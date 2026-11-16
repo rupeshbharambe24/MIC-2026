@@ -1,0 +1,195 @@
+{
+  "intents": [
+    {
+      "id": "intent_shoes_10k",
+      "natural_language_description": "Buy a pair of running shoes under ₹10,000.",
+      "budget_cap": 10000,
+      "currency": "INR",
+      "merchants": null,
+      "requires_refundability": false,
+      "target_category": "running_shoes",
+      "ground_truth_skus": [
+        "SHO-101",
+        "SHO-102",
+        "SHO-103",
+        "SHO-104",
+        "SHO-106"
+      ],
+      "discriminating_attributes": [
+        "use",
+        "cushioning"
+      ],
+      "flagship": true,
+      "intent_expiry_hours": 24
+    },
+    {
+      "id": "intent_trail_shoes",
+      "natural_language_description": "I need waterproof trail running shoes under ₹10,000.",
+      "budget_cap": 10000,
+      "currency": "INR",
+      "merchants": [
+        "SummitGear",
+        "PaceHouse",
+        "StrideWorks"
+      ],
+      "requires_refundability": true,
+      "target_category": "running_shoes",
+      "ground_truth_skus": [
+        "SHO-106"
+      ],
+      "discriminating_attributes": [
+        "use",
+        "waterproof"
+      ],
+      "flagship": false,
+      "intent_expiry_hours": 24
+    },
+    {
+      "id": "intent_anc_headphones",
+      "natural_language_description": "Buy noise-cancelling over-ear headphones under ₹13,000.",
+      "budget_cap": 13000,
+      "currency": "INR",
+      "merchants": null,
+      "requires_refundability": true,
+      "target_category": "headphones",
+      "ground_truth_skus": [
+        "AUD-501"
+      ],
+      "discriminating_attributes": [
+        "noise_cancelling",
+        "form"
+      ],
+      "flagship": false,
+      "intent_expiry_hours": 24
+    },
+    {
+      "id": "intent_commuter_bag",
+      "natural_language_description": "A commuter backpack with a laptop sleeve under ₹5,000.",
+      "budget_cap": 5000,
+      "currency": "INR",
+      "merchants": null,
+      "requires_refundability": true,
+      "target_category": "backpack",
+      "ground_truth_skus": [
+        "BAG-602"
+      ],
+      "discriminating_attributes": [
+        "laptop_sleeve",
+        "litres"
+      ],
+      "flagship": false,
+      "intent_expiry_hours": 24
+    },
+    {
+      "id": "intent_gps_watch",
+      "natural_language_description": "Buy a GPS running watch under ₹20,000 from PaceHouse.",
+      "budget_cap": 20000,
+      "currency": "INR",
+      "merchants": [
+        "PaceHouse"
+      ],
+      "requires_refundability": true,
+      "target_category": "smartwatch",
+      "ground_truth_skus": [
+        "WCH-701"
+      ],
+      "discriminating_attributes": [
+        "gps",
+        "hr"
+      ],
+      "flagship": false,
+      "intent_expiry_hours": 24
+    },
+    {
+      "id": "intent_decaf_coffee",
+      "natural_language_description": "Order decaf filter coffee under ₹1,500.",
+      "budget_cap": 1500,
+      "currency": "INR",
+      "merchants": null,
+      "requires_refundability": true,
+      "target_category": "coffee",
+      "ground_truth_skus": [
+        "COF-803"
+      ],
+      "discriminating_attributes": [
+        "decaf",
+        "grind"
+      ],
+      "flagship": false,
+      "intent_expiry_hours": 24
+    },
+    {
+      "id": "intent_ergo_chair",
+      "natural_language_description": "Buy an ergonomic office chair with adjustable lumbar support under ₹15,000.",
+      "budget_cap": 15000,
+      "currency": "INR",
+      "merchants": null,
+      "requires_refundability": true,
+      "target_category": "office_chair",
+      "ground_truth_skus": [
+        "CHR-901"
+      ],
+      "discriminating_attributes": [
+        "lumbar",
+        "armrest"
+      ],
+      "flagship": false,
+      "intent_expiry_hours": 24
+    },
+    {
+      "id": "intent_cast_iron",
+      "natural_language_description": "Buy a pre-seasoned cast iron skillet under ₹4,000.",
+      "budget_cap": 4000,
+      "currency": "INR",
+      "merchants": null,
+      "requires_refundability": true,
+      "target_category": "kitchen",
+      "ground_truth_skus": [
+        "KIT-A02"
+      ],
+      "discriminating_attributes": [
+        "material",
+        "pre_seasoned"
+      ],
+      "flagship": false,
+      "intent_expiry_hours": 24
+    },
+    {
+      "id": "intent_ds_book",
+      "natural_language_description": "Buy the paperback Distributed Systems textbook under ₹2,000, returnable.",
+      "budget_cap": 2000,
+      "currency": "INR",
+      "merchants": null,
+      "requires_refundability": true,
+      "target_category": "books",
+      "ground_truth_skus": [
+        "BOK-B01"
+      ],
+      "discriminating_attributes": [
+        "format"
+      ],
+      "flagship": false,
+      "intent_expiry_hours": 24
+    },
+    {
+      "id": "intent_espresso_beans",
+      "natural_language_description": "Buy 500g of dark roast espresso whole beans under ₹1,200.",
+      "budget_cap": 1200,
+      "currency": "INR",
+      "merchants": [
+        "BeanTheory"
+      ],
+      "requires_refundability": true,
+      "target_category": "coffee",
+      "ground_truth_skus": [
+        "COF-802"
+      ],
+      "discriminating_attributes": [
+        "roast",
+        "grind"
+      ],
+      "flagship": false,
+      "intent_expiry_hours": 24
+    }
+  ]
+}
